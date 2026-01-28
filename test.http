@@ -1,0 +1,7 @@
+POST http://127.0.0.1:8000/api/messages/
+Content-Type: application/json
+Authorization: Token d721976c17b317ddb86a655cdd06889fb35e8d9a
+
+{
+    "content": "Je déteste tout le monde, vous êtes vraiment nuls !"
+}
