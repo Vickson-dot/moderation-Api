@@ -22,22 +22,17 @@ venv\Scripts\activate
 11. python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
-12. C'est une excellente remarque. Si tu utilises Token-based Authentication, ton enseignant sera bloqué s'il ne sait pas comment générer ce fameux jeton pour ses tests (via Postman ou ton fichier test.http).
+12.Une fois le compte super-utilisateur (superuser) créé et la connexion établie sur /admin/ :
 
-S'il n'a pas de token, il recevra une erreur 401 Unauthorized sur tous tes endpoints protégés.
+Se rendre dans la section Tokens.
 
-Comment obtenir le token ?
-Il y a deux façons classiques, et tu devrais lui indiquer la plus simple :
-
-Option A : Via l'interface Django Admin (La plus visuelle)
-Une fois qu'il a créé son superuser et qu'il est connecté sur /admin/ :
-
-Il va dans la section Tokens.
-
-Il clique sur Add Token.
-
+Cliquer sur le bouton Add Token.
+Sélectionner l'utilisateur correspondant et enregistrer. Le jeton s'affichera alors à l'écran.
 Il sélectionne son utilisateur et enregistre. Le token s'affichera à l'écran
-12. 4. Spécifications du Système de Modération
+
+12. 4. "Monsieur, pour tester l'API, j'ai exclu la base de données locale par sécurité. Il vous suffira de lancer python manage.py migrate puis python manage.py createsuperuser pour accéder à l'interface de modération et aux endpoints protégés."
+13. 
+14. Spécifications du Système de Modération
 13. L'analyse est déclenchée automatiquement via un signal Django lors de la sauvegarde d'un objet Message
 14. Paramètre	Seuil / Valeur	Action
 Seuil de Toxicité	> 0.7	Statut : "flagged" (quarantaine)
