@@ -15,12 +15,28 @@ Procédure d'installation
 7.Environnement virtuel :
 7. python -m venv venv
 venv\Scripts\activate
+8. 
 8. Installation des dépendances :
 9. pip install django djangorestframework django-cors-headers detoxify torch
 10. Initialisation de la base de données :
 11. python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
+12. C'est une excellente remarque. Si tu utilises Token-based Authentication, ton enseignant sera bloqué s'il ne sait pas comment générer ce fameux jeton pour ses tests (via Postman ou ton fichier test.http).
+
+S'il n'a pas de token, il recevra une erreur 401 Unauthorized sur tous tes endpoints protégés.
+
+Comment obtenir le token ?
+Il y a deux façons classiques, et tu devrais lui indiquer la plus simple :
+
+Option A : Via l'interface Django Admin (La plus visuelle)
+Une fois qu'il a créé son superuser et qu'il est connecté sur /admin/ :
+
+Il va dans la section Tokens.
+
+Il clique sur Add Token.
+
+Il sélectionne son utilisateur et enregistre. Le token s'affichera à l'écran
 12. 4. Spécifications du Système de Modération
 13. L'analyse est déclenchée automatiquement via un signal Django lors de la sauvegarde d'un objet Message
 14. Paramètre	Seuil / Valeur	Action
