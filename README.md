@@ -1,53 +1,96 @@
 DOCUMENTATION TECHNIQUE : API DE MODERATION AUTOMATISEE
-1. Présentation du Projet
-2. Cette API fournit un système complet de gestion de contenu avec analyse de toxicité en temps réel. Elle intègre le modèle de Deep Learning Detoxify pour automatiser la détection de contenus inappropriés et permettre une intervention humaine ciblée.
-3. 2. Architecture Technique
-4. Framework : Django 5.x / Django REST Framework
+1. Présentation du Projet:
+Cette API fournit un système complet de gestion de contenu avec analyse de toxicité en temps réel. Elle intègre le modèle de Deep Learning Detoxify pour automatiser la détection de contenus inappropriés et permettre une intervention humaine ciblée via un panel d'administration.
+
+2. Architecture Technique
+Framework : Django 5.x / Django REST Framework
+
 Moteur d'IA : Detoxify (basé sur l'architecture Transformer)
-5. Authentification : Token-based Authentication
-6. Base de données : SQLite (environnement de développement)
+
+Authentification : Token-based Authentication
+
+Base de données : SQLite (environnement de développement)
 
 3. Installation et Configuration
-4. Prérequis
-5. Python 3.10+
-6. Pip (gestionnaire de paquets)
+Note à l'attention du correcteur : Par mesure de sécurité et de propreté, la base de données locale a été exclue du dépôt. Veuillez suivre la procédure ci-dessous pour initialiser l'environnement.
+
+Prérequis
+Python 3.10+
+
+Pip (gestionnaire de paquets)
+
 Procédure d'installation
-7.Environnement virtuel :
-7. python -m venv venv
+Environnement virtuel :
+python -m venv venv
 venv\Scripts\activate
-8. 
-8. Installation des dépendances :
-9. pip install django djangorestframework django-cors-headers detoxify torch
-10. Initialisation de la base de données :
-11. python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
-12.Une fois le compte super-utilisateur (superuser) créé et la connexion établie sur /admin/ :
+
+Installation des dépendances :
+pip install django djangorestframework django-cors-headers detoxify torch
+
+Initialisation du système :
+python manage.py makemigrations,
+python manage.py migrate,
+python manage.py createsuperuser.
+
+Obtention du Token d'authentification : Une fois connecté sur /admin/ :
 
 Se rendre dans la section Tokens.
 
-Cliquer sur le bouton Add Token.
-Sélectionner l'utilisateur correspondant et enregistrer. Le jeton s'affichera alors à l'écran.
-Il sélectionne son utilisateur et enregistre. Le token s'affichera à l'écran
+Cliquer sur Add Token.
 
-12. 4. "Monsieur, pour tester l'API, j'ai exclu la base de données locale par sécurité. Il vous suffira de lancer python manage.py migrate puis python manage.py createsuperuser pour accéder à l'interface de modération et aux endpoints protégés."
-13. 
-14. Spécifications du Système de Modération
-13. L'analyse est déclenchée automatiquement via un signal Django lors de la sauvegarde d'un objet Message
-14. Paramètre	Seuil / Valeur	Action
+Sélectionner l'utilisateur et enregistrer. Le jeton s'affichera pour vos tests API
+
+4. Spécifications du Système de Modération
+L'analyse est déclenchée automatiquement via un signal Django lors de la sauvegarde d'un objet Message.
+Paramètre	Seuil / Valeur	Action
 Seuil de Toxicité	> 0.7	Statut : "flagged" (quarantaine)
 Seuil de Signalement	>= 3 reports	Statut : "flagged" (automatique)
-Catégories analysées	Toxicity, Insult, Threat, Obscene	Enregistrement dans ModerationResult
+Catégories analysées	Toxicity, Insult, Threat, Obscene	Log dans ModerationResult
+5. Guide des Endpoints API: 
+  L'API est accessible directement via les URLs ci-dessous. La racine du serveur redirige automatiquement vers l'interface d'administration pour une gestion facilitée
 
-5. Guide des Endpoints API
-6. A. Gestion des Message
-7. POST /api/messages/ : Soumission d'un nouveau contenu.
-8. POST /api/messages/{id}/report/ : Signalement d'un message par un utilisateur
+A. Gestion des Messages
+POST /api/messages/ : Soumission d'un nouveau contenu pour analyse IA.
 
-B. Interface de Modération (Admin uniquement)
-GET /api/moderation/pending/ : Liste des messages en attente de révision (statuts pending ou flagged).
-POST /api/moderation/{id}/approve/ : Validation manuelle d'un message.
-POST /api/moderation/{id}/reject/ : Rejet définitif et masquage du contenu.
+POST /api/messages/{id}/report/ : Signalement d'un message par un utilisateur.
 
-C. Analytique
-GET /api/moderation/stats/ : Récupération des indicateurs de performance (KPI) de la plateforme.
+B. Interface de modération(Accès Administrateur)
+Ces endpoints permettent de gérer les contenus mis en quarantaine. Ils sont visibles et testables via l'interface Django REST Framework si vous êtes connecté.
+
+Liste des messages en attente
+
+URL : GET /api/moderation/pending/
+
+Contenu : Affiche les messages avec le statut pending ou flagged.
+
+Approbation manuelle
+
+URL : POST /api/moderation/{id}/approve/
+
+Action : Valide le message et le rend public.
+
+Rejet définitif
+
+URL : POST /api/moderation/{id}/reject/
+
+Action : Marque le contenu comme rejeté et le masque.
+
+C. Analytique et Surveillance
+
+Statistiques (KPI)
+
+URL : GET /api/moderation/stats/
+
+Description : Rapport en temps réel (Volume total, % de toxicité, volume de signalements)
+
+6. Interface d'Administration
+
+Les tables de données suivantes sont directement administrables via l'interface graphique /admin/ :
+
+Messages : Consultation de tous les contenus.
+
+Moderation Results : Détails des scores envoyés par l'IA Detoxify.
+
+Reports : Historique des signalements utilisateurs.
+
+Moderation Actions : Journal des décisions prises par les modérateurs.
