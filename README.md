@@ -94,3 +94,7 @@ Moderation Results : Détails des scores envoyés par l'IA Detoxify.
 Reports : Historique des signalements utilisateurs.
 
 Moderation Actions : Journal des décisions prises par les modérateurs.
+
+NB: 04 des 06 endpoints sont visible et peuvent etre tester directement sur l'interface admin et d'autres via l'url.  les urls respectifs de tous les endpoints sont mentionnés ci dessus.
+
+"Monsieur, concernant les spécifications de la fiche de projet n°7, j'ai choisi d'aller au-delà du minimum requis de 4 endpoints. J'ai réalisé les 6 endpoints prévus et de palier aux difficultés teles que le bilinguisme du modèle pour offrir une solution de modération complète (soumission, signalement, filtrage, approbation, rejet et statistiques)."
